@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+        }
+        select, input[type="submit"] {
+            width: auto;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        input[type="submit"] {
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        p {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        h1 img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        footer {
+            text-align: center;
+            /* ... existing CSS ... */
+        }
+        .reference-box {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+            width: 500px;
+        }
+        .nav-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #008CBA; /* Change to your preferred color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.5s;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .nav-button:hover {
+            background-color: #007B9A; /* Change to your preferred color */
+        }
+
+        .submit-button {
+            width: 120px !important; /* Adjust as needed */
+            display: block !important;
+            margin:20px auto !important;
+            
+        }
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .checkbox-group input {
+            margin-right: 5px;
+        }
+        .entity-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .entity-card h3 {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .entity-card p {
+            margin: 0.5em 0;
+            font-size: 1em;
+            color: #666;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <div class="container">
+        <h1><img src="{{ url_for('static', filename='speech.png') }}" alt="Icon">Multiple Analaysis</h1>
+
+        <nav>
+            <a class="nav-button" href="{{ url_for('week1') }}">Week 1</a>
+            <a class="nav-button" href="{{ url_for('week2') }}">Week 2</a>
+            
+        </nav>
+       
+            <form method="POST">
+                <textarea name="text"></textarea>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="actions" value="RecognizeEntitiesAction"> Recognize Entities</label>
+                    <label><input type="checkbox" name="actions" value="RecognizePiiEntitiesAction"> Recognize PII Entities</label>
+                    <label><input type="checkbox" name="actions" value="ExtractKeyPhrasesAction"> Extract Key Phrases</label>
+                    <label><input type="checkbox" name="actions" value="RecognizeLinkedEntitiesAction"> Recognize Linked Entities</label>
+                    <label><input type="checkbox" name="actions" value="AnalyzeSentimentAction"> Analyze Sentiment</label>
+                    </div>
+                    <input type="submit" value="Analyze">
+            </form>
+
+            {% if results %}
+                {% for result in results %}
+                    <h3>Text: {{ result.text }}</h3>
+                    {% for action in result.actions %}
+                
+                        <h4>Action: {{ action.kind }}</h4>
+                        {% if action.kind == "EntityRecognition" %}
+                        {% for entity in action.entities %}
+                            <div class="entity-card">
+                                <h3>{{ entity.text }}</h3>
+                                <p>Category: {{ entity.category }}<br>
+                                   Confidence Score: {{ entity.confidence_score }}</p>
+                            </div>
+                        {% endfor %}
+                            
+                        {% elif action.kind == "PiiEntityRecognition" %}
+                        {% for entity in action.entities %}
+                        <div class="entity-card">
+                            <h3>{{ entity.text }}</h3>
+                            <p>Category: {{ entity.category }}<br>
+                               Confidence Score: {{ entity.confidence_score }}</p>
+                        </div>
+                        {% endfor %}
+                        
+                        {% elif action.kind == "KeyPhraseExtraction" %}
+                            <p>Key Phrases: {{ action.key_phrases }}</p>
+                        {% elif action.kind == "EntityLinking" %}
+                            {% for entity in action.entities %}
+                            <div class="entity-card">
+                                <h3>{{ entity.name }}</h3>
+                                <p>Entity Name: {{ entity.name }}<br>
+                                Data Source: {{ entity.data_source }}<br>
+                                URL: {{ entity.url }}</p>
+                            </div>
+                            {% endfor %}
+                        {% elif action.kind == "SentimentAnalysis" %}
+                            <p>Sentiment: {{ action.sentiment }}
+                            Confidence Scores: Positive = {{ action.confidence_scores.positive }}, Neutral = {{ action.confidence_scores.neutral }}, Negative = {{ action.confidence_scores.negative }}</p>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+    
+    
+
+    <div class="reference-box">
+        <h3> References</h3>
+        <a target="_blank" href="https://learn.microsoft.com/en-us/python/api/overview/azure/ai-textanalytics-readme?view=azure-python#multiple-analysis">Multiple Analysis</a>
+       
+    </div>
+</div>    
+</div>
+
+</body>
+</html>

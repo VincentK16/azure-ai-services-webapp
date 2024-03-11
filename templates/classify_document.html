@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document Classification</title>
+</head>
+<body>
+    <h1>Document Classification</h1>
+    <form method="POST">
+        <label for="document">Document:</label><br>
+        <textarea id="document" name="document" rows="4" cols="50"></textarea><br>
+        <input type="submit" value="Classify">
+    </form>
+    {% if results %}
+    <h2>Classification Results:</h2>
+    <ul>
+        {% for result in results %}
+        <li>Document: {{ result.document }}</li>
+        <ul>
+            {% for classification in result.classifications %}
+            <li>Category: {{ classification.category }}, Confidence Score: {{ classification.confidence_score }}</li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>

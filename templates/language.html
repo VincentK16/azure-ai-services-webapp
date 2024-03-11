@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        select, input[type="submit"] {
+            width: auto;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        input[type="submit"] {
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        p {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        h1 img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        footer {
+            text-align: center;
+            /* ... existing CSS ... */
+        }
+        .reference-box {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+            width: 500px;
+        }
+        .nav-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #008CBA; /* Change to your preferred color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.5s;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .nav-button:hover {
+            background-color: #007B9A; /* Change to your preferred color */
+        }
+
+        .submit-button {
+            width: 120px !important; /* Adjust as needed */
+            display: block !important;
+            margin:20px auto !important;
+            
+        }
+        .checked {
+            color: orange;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <div class="container">
+        <h1><img src="{{ url_for('static', filename='speech.png') }}" alt="Icon">Language</h1>
+
+        <nav>
+            <a class="nav-button" href="{{ url_for('week1') }}">Week 1</a>
+            <a class="nav-button" href="{{ url_for('week2') }}">Week 2</a>
+            
+        </nav>
+       
+
+        <form method="POST">
+            <label for="text">Enter text:</label>
+            <textarea id="text" name="text" style="width: 100%; height: 100px;"></textarea>
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if language %}
+            <p>The detected language is: {{ language }}</p>
+        {% else %}
+            <p>No language was detected.</p>
+        {% endif %}
+        <!-- for language details -->
+        <button id="languageDetailsButton" onclick="toggleDetails('languageDetails')">More Details</button>
+        <div id="languageDetails" style="display: none;">
+            <pre>{{ language_result }}</pre>
+        </div>
+
+
+
+        {% if sentiment %}
+            <p>The detected sentiment is: {{ sentiment }}</p>
+        {% else %}
+            <p>No sentiment was detected.</p>
+        {% endif %}
+        <button id="sentimentDetailsButton" onclick="toggleDetails('sentimentDetails')">More Details</button>
+        <div id="sentimentDetails" style="display: none;">
+            <pre>{{ sentiment_result }}</pre>
+        </div>
+
+        
+        
+
+        {% if entities %}
+        <p>Detected entities:<br>
+        {% for entity in entities %}
+            {{ entity.text }} ({{ entity.category }}, {{ entity.subcategory }}, confidence: {{ entity.confidence_score }})<br>
+        {% endfor %}</p>
+
+        {% else %}
+        <p>No entities were detected.</p>
+        {% endif %}
+        <!-- for entities details -->
+        <button id="entitiesDetailsButton" onclick="toggleDetails('entitiesDetails')">More Details</button>
+        <div id="entitiesDetails" style="display: none;">
+            <pre>{{ entities_result }}</pre>
+        </div>
+
+        {% if key_phrases %}
+        
+            <p> Key Phrases: 
+           
+            {{ key_phrases | join(",") }}</p>
+            
+        {% else %}
+            <p>No key phrases were detected.</p>
+        {% endif %}
+        <!-- for key phrases details -->
+        <button id="keyPhrasesDetailsButton" onclick="toggleDetails('keyPhrasesDetails')">More Details</button>
+        <div id="keyPhrasesDetails" style="display: none;">
+            <pre>{{ key_phrases_result }}</pre>
+        </div>
+
+
+       
+        {% if linked_entities %}
+            <p>The detected linked entities are: {{ linked_entities | join(", ") }}</p>
+        {% else %}
+            <p>No linked entities were detected.</p>
+        {% endif %}
+    </div>
+
+
+    <script>
+        function toggleDetails(id) {
+        var x = document.getElementById(id);
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+     }
+        </script>
+
+
+</body>
+</html>

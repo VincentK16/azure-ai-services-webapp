@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Summarization</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        textarea, input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        input[type="submit"] {
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+
+        .nav-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #008CBA; /* Change to your preferred color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.5s;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .nav-button:hover {
+            background-color: #007B9A; /* Change to your preferred color */
+        }
+        h1 img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><img src="{{ url_for('static', filename='speech.png') }}" alt="Icon">Document Summarization</h1>
+        <p><i>Summarization is one of the features offered by Azure AI Language, a collection of machine learning and AI algorithms in the cloud for developing intelligent applications that involve written language. </i> </p>
+        
+        <nav>
+            <a class="nav-button" href="{{ url_for('week1') }}">Week 1</a>
+            <a class="nav-button" href="{{ url_for('week2') }}">Week 2</a>
+        </nav>
+        <p> Conversation summary Python package is still not available yet. </p>
+
+        <form action="/extractive_summary" method="post">
+            <label for="text">Document to summarize:</label><br>
+            <textarea id="text" name="text" rows="4" cols="50"></textarea><br>
+            <input type="radio" id="extractive" name="summary_type" value="extractive">
+            <label for="extractive">Extractive</label><br>
+            <input type="radio" id="abstractive" name="summary_type" value="abstractive">
+            <label for="abstractive">Abstractive</label>
+            <br>
+            <input type="submit" value="Summarize">
+        </form>
+        {% if summary %}
+            <h2>Summary:</h2>
+            <p>{{ summary }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>

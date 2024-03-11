@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recognize PII</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        select, input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        p {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        h1 img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        footer {
+            text-align: center;
+            
+        }
+        .reference-box {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+            width: 500px;
+        }
+        .nav-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #008CBA; /* Change to your preferred color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.5s;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .nav-button:hover {
+            background-color: #007B9A; /* Change to your preferred color */
+        }
+
+        .submit-button {
+            width: 120px !important; /* Adjust as needed */
+            display: block !important;
+            margin: 20px auto !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1><img src="{{ url_for('static', filename='speaker.png') }}" alt="Icon"> PII Detection</h1>
+        <nav>
+            <a class="nav-button" href="{{ url_for('week1') }}">Week 1</a>
+            <a class="nav-button" href="{{ url_for('week2') }}">Week 2</a>
+            
+        </nav>
+        <form method="POST" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="margin-right: 20px;">
+                <label for="document">Enter document:</label><br>
+                <textarea id="document" name="document" rows="4" cols="50"></textarea>
+            </div>
+            <div>
+                <label for="category">Category:</label><br>
+                <select name="category" id="category">
+                    <option value="All">All</option>
+                    <option value="Email">Email</option>
+                    <option value="Person">Person</option>
+                    <option value="PhoneNumber">PhoneNumber</option>
+                    <option value="Address">Address</option>
+                    <option value="SWIFTCode">SWIFT code</option>
+                    <option value="BankAccountNumber">BankAccountNumber</option>
+                </select>
+            </div>
+            <input class="submit-button" type="submit" value="Recognize PII">
+        </form>
+
+        
+        {% if redacted_text %}
+            <h2>Original Document</h2>
+            <p>{{ document }}</p>
+            <h2>Redacted Text</h2>
+            <p>{{ redacted_text }}</p>
+            
+            <!--
+            <h2>Entities</h2>
+            <ul>
+                {% for text, category in entities %}
+                    <li>{{ text }} ({{ category }})</li>
+                {% endfor %}
+            </ul>
+            -->
+    
+           
+        {% endif %}
+        <br>
+        <button id="piiDetailsButton" onclick="toggleDetails('piiDetails')">More Details</button>
+        <div id="piiDetails" style="display: none;">
+            <pre>{{ pii_result}}</pre>
+        </div>
+
+
+    </div>
+    <script>
+        function toggleDetails(id) {
+        var x = document.getElementById(id);
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+     }
+        </script>
+   
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GET INSPIRED, MAKE GREAT THINGS HAPPEN!!!</title>
+     <!-- Include Bootstrap CSS -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+     <link rel="icon" href="https://www.mediacorp.sg/sites/corporate/themes/mc_corporate_theme/favicon.ico">             
+    <style>
+
+        .submit-button {
+            width: 120px !important; /* Adjust as needed */
+            display: block !important;
+            margin:20px auto !important;
+        }
+
+        .product-card {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+        }
+        .product-card img {
+            width: 100%;
+            height: auto;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        select, input[type="submit"] {
+            width: auto;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        input[type="submit"] {
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .nav-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #008CBA; /* Change to your preferred color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.5s;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .submit-button {
+            width: auto !important; /* Adjust as needed */
+            display: block !important;
+            margin:20px auto !important;
+        
+        }
+
+        .image-container {
+            position: absolute;
+        
+            top: 0;
+            right: 0;
+        }
+        .image-container img {
+            width: 100px; /* Adjust as needed */
+            height: 100px; /* Adjust as needed */
+            margin: 10px;
+            border-radius: 50%;
+            border: 2px solid #fff; /* Add a border */
+            box-shadow: 0px 0px 20px rgba(0, 0, 255, 2); /* Add a box shadow */
+        }
+        
+    </style>
+</head>
+<body>
+      
+     
+    
+    <div class="container">
+        <h1>Welcome onboard to PR-801 🚀</h1>
+        <nav>
+            <a class="nav-button" href="{{ url_for('week1') }}">Week 1</a>
+            <a class="nav-button" href="{{ url_for('week2') }}">Week 2</a>
+            
+        </nav>
+       
+    
+     
+
+    <form method="POST">
+        <label for="prompt">Enter a prompt:</label><br>
+        <input type="text" id="prompt" name="prompt"><br>
+        <input class="submit-button" type="submit" value="Generate Image">
+        <br>
+        <img src="{{ image_url }}"  class="img-fluid" alt="Generated Image" style="width: 100%;">
+    </form>
+    <!--
+
+    {% if image_url %}
+        <img src="{{ image_url }}" alt="Generated Image">
+    {% endif %}
+-->
+    <footer>
+        <p class="text-center">© 2024</p>
+    </footer>
+      <!-- Include Bootstrap JS -->
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+      <script>
+         window.onload = function() {
+            var images = document.getElementsByTagName('img');
+            for (var i = 0; i < images.length; i++) {
+                images[i].ondragstart = function() { return false; };
+                images[i].oncontextmenu = function() { return false; };
+            }
+        };
+      </script>
+</body>
+</html>

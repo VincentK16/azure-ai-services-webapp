@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recognize Custom Entities</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .entity-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 10px;
+        }
+
+        .entity-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+        }
+        select, input[type="submit"] {
+            width: auto;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        input[type="submit"] {
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        h1 img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        footer {
+            text-align: center;
+            /* ... existing CSS ... */
+        }
+        .reference-box {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+            width: 500px;
+        }
+        .nav-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #008CBA; /* Change to your preferred color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.5s;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .nav-button:hover {
+            background-color: #007B9A; /* Change to your preferred color */
+        }
+
+        .submit-button {
+            width: 120px !important; /* Adjust as needed */
+            display: block !important;
+            margin:20px auto !important;
+            
+        }
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .checkbox-group input {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1><img src="{{ url_for('static', filename='speech.png') }}" alt="Icon">Recognize Custom Entities</h1>
+        <h4>Example usage scenarios</h4>
+        <p>📰Information extraction
+            Many financial and legal organizations extract and normalize data from thousands of complex, unstructured text sources on a daily basis. Such sources include bank statements, legal agreements, or bank forms. For example, mortgage application data extraction done manually by human reviewers may take several days to extract. Automating these steps by building a custom NER model simplifies the process and saves cost, time, and effort.
+            
+            <br><br>🧠Knowledge mining to enhance/enrich semantic search
+            Search is foundational to any app that surfaces text content to users. Common scenarios include catalog or document search, retail product search, or knowledge mining for data science. Many enterprises across various industries want to build a rich search experience over private, heterogeneous content, which includes both structured and unstructured documents. As a part of their pipeline, developers can use custom NER for extracting entities from the text that are relevant to their industry. These entities can be used to enrich the indexing of the file for a more customized search experience.</p>
+        <nav>
+            <a class="nav-button" href="{{ url_for('week1') }}">Week 1</a>
+            <a class="nav-button" href="{{ url_for('week2') }}">Week 2</a>
+            
+        </nav>
+        <form method="POST">
+            <label for="document">Enter document:</label><br>
+            <textarea id="document" name="document" rows="4" cols="50"></textarea><br>
+            <input type="submit" value="Recognize Custom Entities">
+        </form>
+        
+        
+            {% if entities %}
+                <h2>Recognized Entities</h2>
+                <br>
+                <div class="grid-container">
+                {% for entity in entities %}
+                    <div class="entity-card">
+                        <h3>{{ entity.text }}</h3>
+                        <p>Category: {{ entity.category }}</p>
+                        <p>Confidence Score: {{ entity.confidence_score }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Speech Recognition</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        select, input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        h2 {
+            margin-top: 20px;
+        }
+        p {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        h1 img {
+            vertical-align: middle;
+            margin-right: 10px;
+        }
+        footer {
+            text-align: center;
+            
+        }
+        .reference-box {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+            width: 500px;
+        }
+        .nav-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #008CBA; /* Change to your preferred color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.5s;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .nav-button:hover {
+            background-color: #007B9A; /* Change to your preferred color */
+        }
+
+        .submit-button {
+            width: 120px !important; /* Adjust as needed */
+            display: block !important;
+            margin: 20px auto !important;
+        }
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><img src="{{ url_for('static', filename='speaker.png') }}" alt="Icon"> Speech Recognition</h1>
+        <nav>
+            <a class="nav-button" href="{{ url_for('week1') }}">Week 1</a>
+            <a class="nav-button" href="{{ url_for('week2') }}">Week 2</a>
+            
+        </nav>
+
+        <form method="POST">
+            <label for="language">Select language:</label>
+            <select id="language" name="language">
+                {% for language in languages %}
+                    <option value="{{ language }}">{{ language }}</option>
+                {% endfor %}
+            </select>
+      
+            <input class="submit-button" type="submit" value="Start Recognition">
+        </form>
+   
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <h2>Recognized Text:</h2>
+                <p>{{ messages[0] }}</p>
+            {% endif %}
+        {% endwith %}
+        <button onclick="location.reload(true);">Refresh</button>
+
+        <div class="reference-box">
+            <a target="_blank" href="https://learn.microsoft.com/en-us/python/api/azure-cognitiveservices-speech/azure.cognitiveservices.speech.speechrecognitionresult?view=azure-python">SpeechRecognitionResult Class</a>
+        </div>
+    
+    </div>
+    <footer>
+        <a target="_blank" href="https://icons8.com/icon/122523/audio">Speaker</a> icon by <a target="_blank" href="https://icons8.com">Icons8</a>
+    </footer>
+</body>
+</html>
