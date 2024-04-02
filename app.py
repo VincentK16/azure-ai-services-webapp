@@ -305,8 +305,8 @@ def week1():
 
         client = AzureOpenAI(
             api_version="2023-12-01-preview",
-            azure_endpoint="https://dalle3-demo0416.openai.azure.com/openai/deployments/Dalle3/images/generations?api-version=2023-06-01-preview",
-            api_key="890c9c0619cb40489e0a5d331da7ceef",
+            azure_endpoint="https://<replace with aoai resource name>.openai.azure.com/openai/deployments/Dalle3/images/generations?api-version=2023-06-01-preview",
+            api_key="<replace with dall-e 3 keys>",
         )
 
         result = client.images.generate(
@@ -423,8 +423,8 @@ def extractive_summary():
         document = [request.form.get('text')]
         summary_type = request.form.get('summary_type')
 
-        endpoint = "https://58101-demo.cognitiveservices.azure.com/"
-        key = "f2639704209c4a11b9fba4e033c20b24"
+        endpoint = "<replace with your language resource endpoint>"
+        key = "<replace with your language resource key>"
 
         text_analytics_client = TextAnalyticsClient(
             endpoint=endpoint,
