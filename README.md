@@ -7,6 +7,8 @@ Most Azure AI services are available through REST APIs and client library SDKs i
 
 ## Exploring the Wonderful World of AI with Azure AI Services
 <img width="878" alt="image" src="https://github.com/user-attachments/assets/63bf51df-fb1e-4c1b-91a0-0e337ec64c51">
+<br>
+<img width="878" alt="image" src="https://github.com/user-attachments/assets/633d76b6-f70c-4d0a-a724-334eaf95ca2b">
 
 
 ## Getting Started
