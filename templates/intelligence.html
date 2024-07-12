@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document Intelligence</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <div class="container">
+        <select id="week" name="week">
+            <option selected disabled>Select an options</option>
+            <option value="1">Azure AI Language</option>
+            <option value="2">Azure AI Vision</option>
+            <option value="3">Azure AI Document Intelligence</option>
+            <option value="4">Azure OpenAI</option>
+        </select>
+    
+    
+    <h1>Document Intelligence</h1>
+    <form action="/aidocumentintelligence" method="post" enctype="multipart/form-data">
+        <div class="file-upload">
+            <h3>Upload a <select name="document_type">
+                <option value="prebuilt-receipt">Receipt</option>
+                <option value="prebuilt-creditCard">Credit Card</option>
+                <option value="prebuilt-invoice">Invoice</option>
+            </select> to analyze</h3>
+            <label for="file-upload">Choose a file</label>
+            <input id="file-upload" type="file" name="file" required="required">
+            <span id="file-name"></span>
+        </div>
+        
+        <br>
+        <br>
+        <img id="image-preview" src="#" alt="Image Preview" style="display: none;">
+        <input type="submit" value="Analyze" class="center">
+    </form>
+
+    <h1>{{document_type}} Analysis Results</h1>
+    <p> {{ results }}</p>
+    <!--
+    {% for result in results %}
+        <h2>Receipt {{ loop.index }}</h2>
+        <p>Merchant Name: {{ result['Merchant Name'] }}</p>
+        <p>Transaction Date: {{ result['Transaction Date'] }}</p>
+        <p>Total tax: {{ result['Total tax'] }}</p>
+        <p>Tip: {{ result['Tip'] }}</p>
+        <p>Total: {{ result['Total'] }}</p>
+    {% endfor %}
+    
+
+</div>
+-->
+<script>
+    document.getElementById('file-upload').addEventListener('change', function() {
+        var fileName = this.files[0].name;
+        document.getElementById('file-name').textContent = fileName;
+    });
+    </script>
+<script>
+    var routeMapping = {
+        '1': 'ailanguage',
+        '2': 'aivision',
+        '3': 'aidocumentintelligence',
+        '4': 'openai'
+    };
+
+    document.getElementById('week').addEventListener('change', function() {
+        var newRoute = routeMapping[this.value];
+        if (newRoute) {
+            window.location.href = '/' + newRoute;
+        }
+    });
+</script>
+<script>
+    document.getElementById('file-upload').addEventListener('change', function() {
+        var file = this.files[0];
+        var reader = new FileReader();
+    
+        reader.onloadend = function() {
+            document.getElementById('image-preview').src = reader.result;
+            document.getElementById('image-preview').style.display = 'block';
+        }
+    
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            document.getElementById('image-preview').src = "";
+        }
+    });
+    </script>
+</body>
+</html>
