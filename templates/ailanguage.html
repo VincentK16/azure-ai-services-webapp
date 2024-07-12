@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Azure AI Services - Language | Speech | Translator</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+
+        .submit-button {
+            width: 120px !important; /* Adjust as needed */
+            display: block !important;
+            margin:20px auto !important;
+        }
+
+        .product-card {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+        }
+        .product-card img {
+            width: 100%;
+            height: auto;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        select, input[type="submit"] {
+            width: auto;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        input[type="submit"] {
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .nav-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #008CBA; /* Change to your preferred color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.5s;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            font-family: 'Alegreya', sans-serif; /* Add this line */
+        }
+        .nav-button:hover {
+            background-color: #007B9A; /* Change to your preferred color */
+        }
+        .nav-button-codes {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #00ba41; /* Change to your preferred color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.5s;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .submit-button {
+            width: auto !important; /* Adjust as needed */
+            display: block !important;
+            margin:20px auto !important;
+        
+        }
+        .reference-box {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+            width: 500px;
+        }
+        
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <select id="week" name="week">
+            <option selected disabled>Select an options</option>
+            <option value="1">Azure AI Language</option>
+            <option value="2">Azure AI Vision</option>
+            <option value="3">Azure AI Document Intelligence</option>
+            <option value="4">Azure OpenAI</option>
+        </select>
+        <h2 style="text-align: center;">
+            Let's have fun with  </h2>
+            <h3 style="text-align: center;">Azure AI Languages 
+            <img src="{{ url_for('static', filename='02876-icon-service-Language.svg') }}" alt="Icon" style="width: 30px; height: 30px; vertical-align: middle; margin-left: 10px;"> 
+            Azure AI Speech 
+            <img src="{{ url_for('static', filename='00797-icon-service-Speech-Services.svg') }}" alt="Icon" style="width: 30px; height: 30px; vertical-align: middle; margin-left: 10px;">  
+            Azure AI Translator
+            <img src="{{ url_for('static', filename='00800-icon-service-Translator-Text.svg') }}" alt="Icon" style="width: 30px; height: 30px; vertical-align: middle; margin-left: 10px;"> 
+        </h3>
+
+        <div>
+            <a href="{{ url_for('language') }}" class="nav-button">Language</a>
+            <a href="{{ url_for('multiple_analysis') }}" class="nav-button">Multiple Analysis</a>
+            <a href="{{ url_for('recognize_pii') }}" class="nav-button">PII Detection</a>
+            <a href="{{ url_for('recognize_custom_entities') }}" class="nav-button">Custom NER</a>
+            <a href="{{ url_for('extractive_summary') }}" class="nav-button">Summarization</a>
+            <a href="{{ url_for('translate') }}" class="nav-button">Translate</a>
+            <a href="{{ url_for('custom_qna') }}" class="nav-button">Custom QnA</a>
+            <a href="{{ url_for('synthesize_speech') }}" class="nav-button">Speech Synthesis</a>
+            <a href="{{ url_for('recognize_from_microphone') }}" class="nav-button">Speech Recognition</a>
+            <a target="_blank" href="https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/textanalytics/azure-ai-textanalytics/samples" class="nav-button-codes">Sample Codes</a>
+            <br>
+            <div style="display: flex; justify-content: center;">
+                <img src="{{ url_for('static', filename='dragon_language-speech.jpeg') }}" alt="Your Image" width="50%" height="50%">
+            </div>
+            <h3>Scenario Deep-dive</h3>
+            <ol>
+                <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/call-center-overview?context=%2Fazure%2Fai-services%2Flanguage-service%2Fcontext%2Fcontext">Call Center</a></li>
+                <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/captioning-concepts?pivots=programming-language-csharp">Captioning Concepts</a></li>
+                <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-learning-overview">Language Learning Overview</a></li>
+                <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/meeting-transcription">Meeting Transcription</a></li>
+                <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/multi-device-conversation">Multi-device Conversation</a></li>
+                <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/voice-assistants">Voice Assistants</a></li>
+            </ol>
+            <!--
+            <h5>Use a speech-to-text transcription pipeline to analyze recorded conversations</h5>
+            <a target="_blank" href="https://learn.microsoft.com/en-us/azure/architecture/ai-ml/architecture/speech-to-text-transcription-analytics">
+                <img src="{{ url_for('static', filename='speech-to-text-transcription.png') }}" alt="Icon">
+            </a>
+            -->
+            <div class="reference-box">
+                <h3>Azure AI Language<img src="{{ url_for('static', filename='02876-icon-service-Language.svg') }}" alt="Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-left: 10px;"> </h3>
+                <ol>
+                    
+                        <li><a target="_blank" href="https://learn.microsoft.com/en-us/legal/cognitive-services/language-service/transparency-note?context=%2Fazure%2Fai-services%2Flanguage-service%2Fcontext%2Fcontext">Transparency Note for Azure AI Language</a></li>
+                        <li><a target="_blank" href="https://learn.microsoft.com/en-us/python/api/overview/azure/ai-textanalytics-readme?view=azure-python">Azure AI Language client library for Python</a></li>
+                        <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/language-detection/quickstart?pivots=programming-language-python">Language Detection Quickstart</a></li>
+                        <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/entity-linking/quickstart?pivots=programming-language-python">Entity Linking Quickstart</a></li>
+                        <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/key-phrase-extraction/quickstart?pivots=programming-language-python">Key Phrases Extraction Quickstart</a></li>
+                        <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/named-entity-recognition/quickstart?tabs=ga-api&pivots=programming-language-python">NER Quickstart</a></li>
+                        <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/quickstart?pivots=programming-language-python">PII Detection Quickstart</a></li>
+                        <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/sentiment-opinion-mining/quickstart?tabs=windows&pivots=programming-language-python">Sentiment analysis and opinion mining Quickstart</a></li>
+                        <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/text-analytics-for-health/quickstart?tabs=windows&pivots=programming-language-python">Text Analytics for Health Quickstart</a></li>
+                        <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/summarization/quickstart?tabs=document-summarization%2Cwindows&pivots=programming-language-python">Summarization Quickstart</a></li>
+                        <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/language-service/question-answering/quickstart/sdk?tabs=windows&pivots=programming-language-python">Custom Q&A Quickstart</a></li>
+                
+                </ol>
+                <h3>Azure AI Speech <img src="{{ url_for('static', filename='00797-icon-service-Speech-Services.svg') }}" alt="Icon" style="width: 20px; height: 20px; vertical-align: middle; margin-left: 10px;"></h3>
+                <ol>
+                    <li><a target="_blank" href="https://learn.microsoft.com/en-us/python/api/azure-cognitiveservices-speech/?view=azure-python">Azure AI Speech client library for Python</a></li>
+                    <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/get-started-speech-to-text?tabs=windows%2Cterminal&pivots=programming-language-python">Speech to Text Quickstart</a></li>
+                    <li><a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/get-started-text-to-speech?tabs=windows%2Cterminal&pivots=programming-language-python">Text to Speech Quickstart</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <script>
+        var routeMapping = {
+            '1': 'ailanguage',
+            '2': 'aivision',
+            '3': 'aidocumentintelligence',
+            '4': 'openai'
+        };
+    
+        document.getElementById('week').addEventListener('change', function() {
+            var newRoute = routeMapping[this.value];
+            if (newRoute) {
+                window.location.href = '/' + newRoute;
+            }
+        });
+    </script>
+</body>
+</html>
