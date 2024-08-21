@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+
+    <title>AI Vision Analysis</title>
+    <script>
+        function updateImagePreview() {
+            const imageUrl = document.getElementById('image_url').value;
+            const imagePreview = document.getElementById('image_preview');
+            if (imageUrl) {
+                imagePreview.src = imageUrl;
+                imagePreview.style.display = 'block';
+            } else {
+                imagePreview.src = '';
+                imagePreview.style.display = 'none';
+            }
+            adjustInputWidth();
+        }
+        function adjustInputWidth() {
+            const imageUrlInput = document.getElementById('image_url');
+            const minWidth = 10; // Minimum width in characters
+            const newWidth = Math.max(imageUrlInput.value.length + 1, minWidth);
+            imageUrlInput.style.width = newWidth + 'ch';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <select id="week" name="week">
+            <option selected disabled>Select an options</option>
+            <option value="1">Azure AI Language</option>
+            <option value="2">Azure AI Vision</option>
+            <option value="3">Azure AI Document Intelligence</option>
+            <option value="4">Azure OpenAI</option>
+        </select>
+        <h1>AI Vision Analysis</h1>
+        <div>
+            <a href="{{ url_for('aivision') }}" class="nav-button">Image Analysis</a>
+          
+            <a target="_blank" href="https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/vision/azure-ai-vision-imageanalysis/samples" class="nav-button-codes">Sample Codes</a>
+        </div>
+        <form method="POST" action="/aivision">
+            <label for="image_url">Image URL:</label>
+            <br>
+            <input type="text" id="image_url" name="image_url" oninput="updateImagePreview()">
+            <br>
+            <br>
+            <img id="image_preview" src="" alt="Image Preview" style="max-width: 300px; max-height: 300px; display: none;">
+            <br>
+            <label for="features">Select Features:</label>
+            <br>
+        
+        <select id="features" name="features">
+            <option value="tags">Tags</option>
+            <option value="captions">Captions</option>
+            <option value="text">Text</option>
+        </select>
+        <br>
+        <br>
+        <button type="submit">Analyze</button>
+    </form>
+
+    {% if analysis_results %}
+    <h2>Analysis Results:</h2>
+    <pre>{{ analysis_results }}</pre>  <!-- Use tojson to format the output -->
+    <img src="{{ request.form['image_url'] }}" alt="Image Preview" style="max-width: 300px; max-height: 300px;">
+{% else %}
+    <p>No analysis results available.</p>  <!-- Add a fallback message for debugging -->
+{% endif %}
+
+<script>
+    document.getElementById('file-upload').addEventListener('change', function() {
+        var fileName = this.files[0].name;
+        document.getElementById('file-name').textContent = fileName;
+    });
+    </script>
+<script>
+    var routeMapping = {
+        '1': 'ailanguage',
+        '2': 'aivision',
+        '3': 'aidocumentintelligence',
+        '4': 'openai'
+    };
+
+    document.getElementById('week').addEventListener('change', function() {
+        var newRoute = routeMapping[this.value];
+        if (newRoute) {
+            window.location.href = '/' + newRoute;
+        }
+    });
+</script>
+</div>
+</body>
+</html>
