@@ -445,11 +445,11 @@ def synthesize_speech():
 
         speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
 
-        ssml_string = open("ssml.xml", "r").read()
+        #ssml_string = open("ssml.xml", "r").read()
 
-        speech_synthesis_result = speech_synthesizer.speak_ssml_async(ssml_string).get()
+        #speech_synthesis_result = speech_synthesizer.speak_ssml_async(ssml_string).get()
 
-        #speech_synthesis_result = speech_synthesizer.speak_text_async(text).get()
+        speech_synthesis_result = speech_synthesizer.speak_text_async(text).get()
 
         if speech_synthesis_result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
             flash(f"Speech synthesized for text [{text}]")
