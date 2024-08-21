@@ -89,18 +89,38 @@
 </head>
 <body>
     <div class="container">
+        <select id="week" name="week">
+            <option selected disabled>Select an options</option>
+            <option value="1">Azure AI Language</option>
+            <option value="2">Azure AI Vision</option>
+            <option value="3">Azure AI Document Intelligence</option>
+            <option value="4">Azure OpenAI</option>
+        </select>
         
         <h1><img src="{{ url_for('static', filename='speech.png') }}" alt="Icon">Translation</h1>
         
-        <nav>
-            <a class="nav-button" href="{{ url_for('week1') }}">Week 1</a>
-            <a class="nav-button" href="{{ url_for('week2') }}">Week 2</a>
-        </nav>
 
 
         <form action="/translate" method="post">
             <label for="text">Text to translate:</label><br>
             <textarea id="text" name="text" rows="4" cols="50"></textarea><br>
+            <label for="transliterate">Transliterate:</label>
+            <input type="radio" id="transliterate" name="transliterate" value="yes"> Yes
+            <input type="radio" id="transliterate" name="transliterate" value="no" checked> No
+            <br>
+            <label>Dictionary Lookup:</label>
+            <input type="radio" id="dictionary_lookup_yes" name="dictionary_lookup" value="yes"> 
+            <label for="dictionary_lookup_yes">Yes</label>
+            <input type="radio" id="dictionary_lookup_no" name="dictionary_lookup" value="no" checked> 
+            <label for="dictionary_lookup_no">No</label>
+            <br>
+            <label>Dictionary Examples Lookup:</label>
+            <input type="radio" id="dictionary_examples_lookup_yes" name="dictionary_examples_lookup" value="yes"> 
+            <label for="dictionary_examples_lookup_yes">Yes</label>
+            <input type="radio" id="dictionary_examples_lookup_no" name="dictionary_examples_lookup" value="no" checked> 
+            <label for="dictionary_examples_lookup_no">No</label>
+            <br>
+            <br>
             <label for="language">Select a language:</label><br>
             <select id="language" name="language">
                 <option value="en">English</option>
@@ -109,6 +129,10 @@
                 <option value="ms">Malay (Latin)</option>
                 <option value="vi">Vietnamese</option>
                 <option value="zh-Hans">Chinese Simplified</option>
+                <option value="th">Thai</option>
+                <option value="fil">Filipino</option>
+                <option value="mi">Maori</option>
+            
 
                 <!-- Add more options as needed -->
             </select><br>
@@ -122,12 +146,46 @@
             <p>{{ translated_text }}</p>
             <h2>Alignment:</h2>
             <p>{{ alignment }}</p>
+            {% if transliterated_text %}
+            <h2>Transliterated Text:</h2>
+            <p>{{ transliterated_text }}</p>
+            {% endif %}
+            {% if dictionary_entry_text %}
+            <h2>Dictionary Lookup Result (in Spanish ,not from the translation language selection):</h2>
+            <pre>{{ dictionary_entry_text |safe }}</pre>
+            {% endif %}
+            {% if dictionary_examples_text %}
+            <h2>Dictionary Examples Lookup Result:</h2>
+            <pre>{{ dictionary_examples_text|safe }}</pre>
+            {% endif %}
         {% endif %}
+
+        <!--
+            The `<pre>` HTML tag is used to define preformatted text. The text within a `<pre>` element is displayed in a fixed-width font (usually Courier), and it preserves both spaces and line breaks. This makes it useful for displaying text as-is, including formatted code or the output of certain programs.
+
+            The `|safe` filter in the Flask web framework (which uses the Jinja2 templating engine) is used to mark a string as safe, which means it should not be automatically escaped. By default, Jinja2 escapes all variable output to prevent injection attacks, which can be a security risk. However, this also means that special HTML characters like `<`, `>`, and `&` are replaced with their HTML escape codes. If you want to include actual HTML tags in your output (like line breaks), you can use the `|safe` filter to tell Jinja2 that this string is safe and should not be escaped.
+
+            In your code, `<pre>{{ dictionary_entry_text |safe }}</pre>` is using the `<pre>` tag to preserve the formatting of `dictionary_entry_text`, and the `|safe` filter to tell Jinja2 not to escape the newline characters in `dictionary_entry_text`. This allows the dictionary entries to be displayed with one entry per line.
+        -->
         
         <div class="reference-box">
             <a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/translator/language-support">Translator language support</a><br>
             <a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/translator/text-sdk-overview?tabs=csharp">Azure Text Translation SDK</a>
         </div>
     </div>
+    <script>
+        var routeMapping = {
+            '1': 'ailanguage',
+            '2': 'aivision',
+            '3': 'aidocumentintelligence'
+        };
+    
+        document.getElementById('week').addEventListener('change', function() {
+            var newRoute = routeMapping[this.value];
+            if (newRoute) {
+                window.location.href = '/' + newRoute;
+            }
+        });
+    </script>
 </body>
 </html>
