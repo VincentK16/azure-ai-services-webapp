@@ -1,0 +1,117 @@
+.submit-button {
+            width: 120px !important; /* Adjust as needed */
+            display: block !important;
+            margin:20px auto !important;
+        }
+
+        .product-card {
+            border: 1px solid #ccc;
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+        }
+        .product-card img {
+            width: 100%;
+            height: auto;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        select, input[type="submit"] {
+            width: auto;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        input[type="submit"] {
+            font-size: 16px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .nav-button {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #008CBA; /* Change to your preferred color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.5s;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+            font-family: 'Alegreya', sans-serif; /* Add this line */
+        }
+        .nav-button:hover {
+            background-color: #007B9A; /* Change to your preferred color */
+        }
+        .nav-button-codes {
+            display: inline-block;
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #00ba41; /* Change to your preferred color */
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            transition: all 0.5s;
+            cursor: pointer;
+            border-radius: 5px;
+            border: none;
+        }
+
+        .submit-button {
+            width: auto !important; /* Adjust as needed */
+            display: block !important;
+            margin:20px auto !important;
+        
+        }
+        .reference-box {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 10px 0;
+            width: 500px;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            }
+            .file-upload input[type="file"] {
+                display: none;
+            }
+            .file-upload label {
+                padding: 10px 20px;
+                background-color: #008CBA;
+                color: white;
+                cursor: pointer;
+            }
+
+            .center {
+                display: block;
+                margin: 0 auto;
+            }
+        
