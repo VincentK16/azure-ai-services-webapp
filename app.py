@@ -1,33 +1,19 @@
-
-
 from flask import Flask, request, render_template, flash, redirect, url_for, session, jsonify, send_file
 import os
-from reportlab.lib.pagesizes import letter
-from reportlab.lib.units import inch
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
-from reportlab.lib.styles import getSampleStyleSheet
 from dotenv import load_dotenv, dotenv_values
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
-
 from flask_socketio import SocketIO, emit
 import azure.cognitiveservices.speech as speechsdk
-
 from azure.ai.translation.text import TextTranslationClient, TranslatorCredential
-
 from azure.ai.translation.text.models import InputTextItem, DictionaryExampleTextItem
 from azure.core.exceptions import HttpResponseError
-
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 from openai import AzureOpenAI
 import json
-
 from azure.ai.textanalytics import TextAnalyticsClient
 from azure.core.credentials import AzureKeyCredential
-
 from azure.ai.documentintelligence import DocumentIntelligenceClient
 from azure.ai.documentintelligence.models import AnalyzeResult
-
 from azure.ai.textanalytics import (
     TextAnalyticsClient,
     RecognizeEntitiesAction,
@@ -39,18 +25,14 @@ from azure.ai.textanalytics import (
 )
 from azure.ai.vision.imageanalysis import ImageAnalysisClient
 from azure.ai.vision.imageanalysis.models import VisualFeatures
-
 import json
 from typing import Dict
 import pprint
-
 import requests
 import time
 
-
 app = Flask(__name__)
 socketio = SocketIO(app)
-
 
 load_dotenv()
 
@@ -93,6 +75,14 @@ def authenticate_client():
             credential=ta_credential)
     
     return text_analytics_client
+
+def authenticate_vision_client():
+    key = os.environ.get('VISION_KEY')
+    endpoint = os.environ.get('VISION_ENDPOINT')
+    vi_credential=AzureKeyCredential(key)
+    vision_client = ImageAnalysisClient(endpoint=endpoint, credential=vi_credential)
+
+    return vision_client
 
 def sample_recognize_custom_entities(document):
     from azure.core.credentials import AzureKeyCredential
@@ -352,8 +342,8 @@ def extractive_summary():
         document = [request.form.get('text')]
         summary_type = request.form.get('summary_type')
 
-        #endpoint = "https://58101-demo.cognitiveservices.azure.com/"
-        #key = "f2639704209c4a11b9fba4e033c20b24"
+        #endpoint = ""
+        #key = ""
 
         #text_analytics_client = TextAnalyticsClient(
         #    endpoint=endpoint,
@@ -455,7 +445,11 @@ def synthesize_speech():
 
         speech_synthesizer = speechsdk.SpeechSynthesizer(speech_config=speech_config)
 
-        speech_synthesis_result = speech_synthesizer.speak_text_async(text).get()
+        ssml_string = open("ssml.xml", "r").read()
+
+        speech_synthesis_result = speech_synthesizer.speak_ssml_async(ssml_string).get()
+
+        #speech_synthesis_result = speech_synthesizer.speak_text_async(text).get()
 
         if speech_synthesis_result.reason == speechsdk.ResultReason.SynthesizingAudioCompleted:
             flash(f"Speech synthesized for text [{text}]")
@@ -470,10 +464,67 @@ def synthesize_speech():
 
     return render_template('synthesize.html')
 
+# Azure Image Analysis client library for Python - version 1.0.0b3
+# https://learn.microsoft.com/en-us/python/api/overview/azure/ai-vision-imageanalysis-readme?view=azure-python-preview 
 @app.route('/aivision', methods=['GET', 'POST'])
 def aivision():
+    if request.method == 'POST':
+        
+        image_url = request.form.get('image_url')
+        features = request.form.getlist('features')
+        print(f"Features: {features}")
+
+        feature_map = {
+            'tags': 'TAGS',
+            'captions': 'CAPTION',
+            'text': 'READ'
+        }
+
+        selected_features = [feature_map[feature] for feature in features if feature in feature_map]
+
+        print(selected_features)
+
+        client=authenticate_vision_client()
+        # Map feature strings to the appropriate feature types
+
+        # Analyze the image
+        result = client.analyze_from_url(image_url, visual_features=selected_features)
+
+        # Analyze all visual features from an image stream. This will be a synchronously (blocking) call.
+        # result = client.analyze_from_url(
+        #    image_url=image_url,
+        #    visual_features=visual_features,
+        #    smart_crops_aspect_ratios=[0.9, 1.33],
+        #    gender_neutral_caption=True,
+        #    language="en")
+
+        # Visual features
+        # VisualFeatures.CAPTION
+        # VisualFeatures.TAGS
+        # VisualFeatures.DENSE_CAPTIONS
+        # VisualFeatures.OBJECTS
+        # VisualFeatures.PEOPLE
+        # VisualFeatures.SMART_CROPS
+
+        # Prepare the response
+        response = {}
+        if 'TAGS' in selected_features:
+            response["tags"] = [{"name": tag.name, "confidence": tag.confidence} for tag in result.tags.list]
+        if 'CAPTION' in selected_features and result.caption.text:
+            response["caption"] = result.caption.text
+        if 'READ' in selected_features:
+            response["text"] = result.read
+            print(result.read)
     
-    return render_template('error.html')
+            
+        return render_template('vision.html', analysis_results=response)
+    
+    return render_template('vision.html',  analysis_results=None)
+
+#@app.route('/customvision', methods=['GET', 'POST'])
+#def customvision():
+#    if request.method == 'POST':
+
 
 @app.route('/openai', methods=['GET', 'POST'])
 def openai():
@@ -585,15 +636,6 @@ def translate():
 
     return render_template('translate.html')
 
-
-    
-@app.route('/continuous_recognition', methods=['GET'])
-def recognition():
-    return render_template('continuous_recognition.html')
-
-def document_fields_to_dict(fields):
-    return {key: field.get('content', 'N/A') for key, field in fields.items()}
-
 @app.route('/aidocumentintelligence', methods=['POST','GET'])
 def aidocumentintelligence():
 
@@ -651,6 +693,13 @@ def aidocumentintelligence():
 
     return render_template('intelligence.html')
 
+
+@app.route('/continuous_recognition', methods=['GET'])
+def recognition():
+    return render_template('continuous_recognition.html')
+
+def document_fields_to_dict(fields):
+    return {key: field.get('content', 'N/A') for key, field in fields.items()}
     
 
 if __name__ == '__main__':
