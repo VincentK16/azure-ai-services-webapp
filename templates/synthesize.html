@@ -93,12 +93,16 @@
     
 
     <div class="container">
+        <select id="week" name="week">
+            <option selected disabled>Select an options</option>
+            <option value="1">Azure AI Language</option>
+            <option value="2">Azure AI Vision</option>
+            <option value="3">Azure AI Document Intelligence</option>
+            <option value="4">Azure OpenAI</option>
+        </select>
         <h1><img src="{{ url_for('static', filename='speech.png') }}" alt="Icon"> Speech Synthesis</h1>
         
-        <nav>
-            <a class="nav-button" href="{{ url_for('week1') }}">Week 1</a>
-            <a class="nav-button" href="{{ url_for('week2') }}">Week 2</a>
-        </nav>
+        
         
 
         <form method="POST">
@@ -114,6 +118,8 @@
                     <option value="zh-CN-XiaoxiaoNeural">zh-CN-XiaoxiaoNeural (Female)</option>
                     <option value="vi-VN-HoaiMyNeural">vi-VN-HoaiMyNeural (Female)</option>
                     <option value="vi-VN-NamMinhNeural">vi-VN-NamMinhNeural (Male)</option>
+                    <option value="th-TH-AcharaNeural">th-TH-AcharaNeural (Female)</option>
+                    <option value="fil-PH-BlessicaNeural"> BlessicaNeural (Female) </option>
                 </select>
             </div>
             
@@ -133,5 +139,19 @@
             <a target="_blank" href="https://learn.microsoft.com/en-us/azure/ai-services/speech-service/language-support?tabs=tts">Language Support</a>
         </div>
     </div>
+    <script>
+        var routeMapping = {
+            '1': 'ailanguage',
+            '2': 'aivision',
+            '3': 'aidocumentintelligence'
+        };
+    
+        document.getElementById('week').addEventListener('change', function() {
+            var newRoute = routeMapping[this.value];
+            if (newRoute) {
+                window.location.href = '/' + newRoute;
+            }
+        });
+    </script>
 </body>
 </html>
