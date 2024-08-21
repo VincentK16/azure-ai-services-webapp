@@ -63,3 +63,11 @@ cp .env_sample .env
 Now, you're ready to use the secrets stored in your `.env` file securely within your project. Feel free to customize the `.env` file with your other specific secrets and configurations as needed.
 
 Note: Never share your `.env` file publicly or commit it to version control systems like Git, as it contains sensitive information. The best practice is to use a `.gitignore` file in your repo to avoid commiting the `.env` file.
+7. Run the web app
+```bash
+python app.py
+```
+8. Browse to the web app
+```bash
+https://127.0.0.1:5000/ailanguage
+```
