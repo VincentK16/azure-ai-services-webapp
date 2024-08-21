@@ -115,6 +115,13 @@
 </head>
 <body>
     <div class="container">
+        <select id="week" name="week">
+            <option selected disabled>Select an options</option>
+            <option value="1">Azure AI Language</option>
+            <option value="2">Azure AI Vision</option>
+            <option value="3">Azure AI Document Intelligence</option>
+            <option value="4">Azure OpenAI</option>
+        </select>
 
         <h1><img src="{{ url_for('static', filename='speech.png') }}" alt="Icon">Recognize Custom Entities</h1>
         <h4>Example usage scenarios</h4>
@@ -123,11 +130,7 @@
             
             <br><br>🧠Knowledge mining to enhance/enrich semantic search
             Search is foundational to any app that surfaces text content to users. Common scenarios include catalog or document search, retail product search, or knowledge mining for data science. Many enterprises across various industries want to build a rich search experience over private, heterogeneous content, which includes both structured and unstructured documents. As a part of their pipeline, developers can use custom NER for extracting entities from the text that are relevant to their industry. These entities can be used to enrich the indexing of the file for a more customized search experience.</p>
-        <nav>
-            <a class="nav-button" href="{{ url_for('week1') }}">Week 1</a>
-            <a class="nav-button" href="{{ url_for('week2') }}">Week 2</a>
-            
-        </nav>
+    
         <form method="POST">
             <label for="document">Enter document:</label><br>
             <textarea id="document" name="document" rows="4" cols="50"></textarea><br>
@@ -149,5 +152,19 @@
             {% endif %}
         </div>
     </div>
+    <script>
+        var routeMapping = {
+            '1': 'ailanguage',
+            '2': 'aivision',
+            '3': 'aidocumentintelligence'
+        };
+    
+        document.getElementById('week').addEventListener('change', function() {
+            var newRoute = routeMapping[this.value];
+            if (newRoute) {
+                window.location.href = '/' + newRoute;
+            }
+        });
+    </script>
 </body>
 </html>
