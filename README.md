@@ -37,7 +37,7 @@ cd azure-ai-services-webapp
 3. Create a virtual environment.
 
 ```bash
-python3 -m venv <name_of_your_env>
+python -m venv <name_of_your_env>
 ```
 
 4. Activate the virtual environment.
